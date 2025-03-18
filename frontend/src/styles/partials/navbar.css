@@ -1,0 +1,163 @@
+/* Navbar container */
+.navbar {
+    background-color: #212529;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Russo One', sans-serif;
+    position: relative;
+}
+
+/* Navbar brand */
+.navbar-brand {
+    font-size: 1.75rem;
+    color: #ffcc00;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Container */
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Navigation container */
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 20px;
+}
+
+/* Profile Button */
+.profile-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/* Desktop Navigation Links */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Navigation links */
+.nav-link {
+    font-size: 1.2rem;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: grey;
+}
+
+/* Active link */
+.nav-link.active {
+    border-bottom: 2px solid #ffcc00;
+}
+
+/* Logout Button */
+.btn-logout {
+    background-color: #ff4444;
+    color: white;
+    font-size: 1rem;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #cc0000;
+}
+
+/* Mobile View */
+.mobile-menu {
+    display: none;
+}
+
+.mobile-menu-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: none;
+}
+
+/* Mobile Profile Button */
+.mobile-profile-button {
+    display: none;
+}
+
+/* Mobile Navigation Links */
+.mobile-nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    background-color: #212529;
+    width: 200px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    padding: 10px;
+}
+
+.mobile-nav-links .nav-link,
+.mobile-nav-links .btn-logout {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .mobile-menu-button {
+        display: block;
+    }
+
+    .mobile-profile-button {
+        display: block;
+    }
+
+    .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    /* Hide profile button in desktop view */
+    .user-profile.desktop-only {
+        display: none;
+    }
+}

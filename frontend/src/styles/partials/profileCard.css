@@ -1,0 +1,78 @@
+/* Profile Card */
+.profile-card {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #212529;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    width: 250px;
+    text-align: left;
+    z-index: 100;
+    font-family: Arial, sans-serif; /* Use a clean font */
+}
+
+/* Profile Name */
+.profile-name {
+    margin-bottom: 12px;
+    color: #ffcc00;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Profile Details */
+.profile-detail {
+    margin: 8px 0;
+    font-size: 0.85rem;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #ffcc00;
+    min-width: 50px; /* Ensure labels align nicely */
+}
+
+.detail-value {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.detail-date {
+    font-size: 0.8rem;
+    color: #aaa; /* Slightly lighter color for dates */
+}
+
+/* Ticket Icon */
+.ticket-icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+/* Adjust Profile Card for Mobile View */
+@media (max-width: 768px) {
+    .profile-card {
+        right: 10px;
+        width: 220px;
+        padding: 12px;
+    }
+
+    .profile-name {
+        font-size: 1rem;
+    }
+
+    .profile-detail {
+        font-size: 0.8rem;
+    }
+
+    .detail-date {
+        font-size: 0.75rem;
+    }
+}
