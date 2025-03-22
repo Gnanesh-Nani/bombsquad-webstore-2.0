@@ -11,7 +11,9 @@ const Shop = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/shop/`);
+                const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/shop/`, {
+                    credentials: "include", // Include credentials (cookies)
+                });
                 const data = await response.json();
                 if (data.success) {
                     setItems(data.items);
@@ -20,10 +22,9 @@ const Shop = () => {
                 console.error("Failed to fetch shop items:", error);
             }
         };
-
+    
         fetchData();
     }, [user]); // Re-fetch shop items when user changes (e.g., on reload)
-
     // Function to format the end date and determine its color
     const formatEndDate = (endDate) => {
         if (!endDate) return "None";

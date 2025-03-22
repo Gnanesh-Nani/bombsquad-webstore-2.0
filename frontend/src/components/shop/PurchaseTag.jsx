@@ -40,6 +40,7 @@ const PurchaseTag = ({ pbId }) => {
             const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/shop/buyTag`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify({ pbId, tagName: tag, price: 100, days, color }),
             });
 

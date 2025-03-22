@@ -1,11 +1,11 @@
-//shopRoutes.js
 const express = require('express');
 const router = express.Router();
-const fetch = require('node-fetch'); // Use fetch to get mock-server data
+const fetch = require('node-fetch');
+const { authenticateToken } = require('../middleware/auth'); // Import the middleware
 
-const MOCK_SERVER_URL = "http://localhost:3002/app/bank"; // Replace with actual mock-server URL
+const MOCK_SERVER_URL = "http://localhost:3002/app/bank";
 
-// Fetch shop items
+// Fetch shop items (public route)
 router.get('/', async (req, res) => {
     try {
         const response = await fetch(MOCK_SERVER_URL);
@@ -30,9 +30,10 @@ router.get('/', async (req, res) => {
     }
 });
 
-
-router.post('/buy', async (req, res) => {
-    const { pbId, itemName, price, days } = req.body;
+// Protected route: Buy item
+router.post('/buy', authenticateToken, async (req, res) => {
+    const { itemName, price, days } = req.body;
+    const pbId = req.user.pbid; // Get user ID from JWT
 
     if (!pbId || !itemName || !price || !days) {
         return res.status(400).json({ success: false, message: 'Invalid input' });
@@ -46,16 +47,17 @@ router.post('/buy', async (req, res) => {
         });
 
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         res.json(data);
     } catch (error) {
         res.status(500).json({ success: false, message: "Purchase failed" });
     }
 });
 
-
-router.post('/buyTag', async (req, res) => {
-    const { pbId, tagName, price, days, color } = req.body;
+// Protected route: Buy tag
+router.post('/buyTag', authenticateToken, async (req, res) => {
+    const { tagName, price, days, color } = req.body;
+    const pbId = req.user.pbid; // Get user ID from JWT
 
     if (!pbId || !tagName || !price || !days || !color) {
         return res.status(400).json({ success: false, message: 'Invalid input' });
@@ -69,7 +71,7 @@ router.post('/buyTag', async (req, res) => {
         });
 
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         res.json(data);
     } catch (error) {
         res.status(500).json({ success: false, message: "Tag purchase failed" });

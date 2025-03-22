@@ -21,7 +21,9 @@ const PurchaseItem = ({ item, pbId }) => {
             const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/shop/buy`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify({ pbId, itemName: item.name, price: item.price, days }),
+
             });
 
             if (!response.ok) throw new Error("Failed to purchase item");

@@ -1,7 +1,7 @@
 /* Profile Card */
 .profile-card {
     position: absolute;
-    top: 60px;
+    top: 60px; /* Adjust based on your navbar height */
     right: 20px;
     background-color: #212529;
     color: white;

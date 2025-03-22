@@ -14,22 +14,22 @@ const LoginPage = () => {
         e.preventDefault();
         setError("");
         console.log("🔍 Attempting login with:", { pbId, password });
-
+    
         try {
             const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                credentials: "include",
+                credentials: "include", // Include credentials (cookies)
                 body: JSON.stringify({ pbid: pbId, password }),
             });
-
+    
             console.log("📡 Login request sent. Awaiting response...");
             const data = await response.json();
             console.log("📥 Response received:", data);
-
+    
             if (response.ok) {
                 console.log("✅ Login successful:", data.user);
-                login(data.user); // Update both state and localStorage
+                login(data.user); // Update state
                 navigate("/");
             } else {
                 console.log("❌ Login failed:", data.error);

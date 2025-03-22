@@ -13,7 +13,7 @@ function App() {
         <AuthProvider>
             <NavBar />
             <Routes>
-                <Route path="/" element={<ProtectedRoute element={<StatsPage />} />} />
+                <Route path="/" element={<StatsPage />} />
                 <Route path="/stats" element={<ProtectedRoute element={<StatsPage />} />} />
                 <Route path="/shop" element={<ProtectedRoute element={<Shop />} />} />
                 <Route path="/login" element={<LoginPage />} />

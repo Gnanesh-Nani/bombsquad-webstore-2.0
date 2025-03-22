@@ -50,7 +50,10 @@ const NavBar = () => {
                         <div className="user-profile desktop-only">
                             <button
                                 className="profile-button"
-                                onClick={() => setProfileOpen(!profileOpen)}
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevent event propagation
+                                    setProfileOpen(!profileOpen);
+                                }}
                             >
                                 <User size={24} /> Profile
                             </button>
@@ -85,7 +88,10 @@ const NavBar = () => {
                     {user && (
                         <button
                             className="profile-button mobile-profile-button"
-                            onClick={() => setProfileOpen(!profileOpen)}
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevent event propagation
+                                setProfileOpen(!profileOpen);
+                            }}
                         >
                             <User size={24} />
                         </button>

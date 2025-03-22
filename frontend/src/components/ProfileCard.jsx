@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+import { useAuth } from "../context/AuthContext"; // Adjust the import path as needed
 import "../styles/partials/profileCard.css";
 
 const formatDate = (timestamp) => {
+    if (!timestamp) return "None"; // Handle null or undefined timestamp
     const date = new Date(timestamp);
     return date.toLocaleString("en-US", {
         month: "short",
@@ -13,19 +15,47 @@ const formatDate = (timestamp) => {
     });
 };
 
-const ProfileCard = ({ user, onClose }) => {
-    const { pbid, tickets, effect, tag } = user;
+const ProfileCard = ({ user }) => {
+    const { updateUser } = useAuth(); // Access updateUser from AuthContext
+
+    // Extract user data with default values
+    const { pbid, tickets, effect = [], tag = [] } = user;
 
     // Extract effect name and end date
-    const effectName = effect[0];
-    const effectEndDate = formatDate(effect[1]);
+    const effectName = effect?.[0] || "None"; // Default to "None" if effect[0] is null/undefined
+    const effectEndDate = formatDate(effect?.[1]);
 
     // Extract tag name and end date
-    const tagName = tag[0];
-    const tagEndDate = formatDate(tag[1]);
+    const tagName = tag?.[0] || "None"; // Default to "None" if tag[0] is null/undefined
+    const tagEndDate = formatDate(tag?.[1]);
+
+    // Fetch latest user data from the server
+    useEffect(() => {
+        const fetchLatestUserData = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/session`, {
+                    credentials: "include", // Include cookies (JWT token)
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch user data");
+
+                const data = await response.json();
+                if (data.user) {
+                    updateUser(data.user); // Update user data in AuthContext
+                }
+            } catch (error) {
+                console.error("❌ Error fetching latest user data:", error.message);
+            }
+        };
+
+        fetchLatestUserData(); // Fetch data when the component mounts or user prop changes
+    }, []); 
 
     return (
-        <div className="profile-card">
+        <div
+            className="profile-card"
+            onClick={(e) => e.stopPropagation()} // Prevent event propagation
+        >
             <h4 className="profile-name">{pbid}</h4>
             <div className="profile-detail">
                 <span className="detail-label">Tickets:</span>
