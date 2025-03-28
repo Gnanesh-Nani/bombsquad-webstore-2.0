@@ -11,7 +11,7 @@ const NavBar = () => {
     const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
-    const profileCardRef = useRef(null); // Ref for the profile card
+    const profileCardRef = useRef(null);
 
     const handleLogout = async () => {
         await logout();
@@ -24,16 +24,13 @@ const NavBar = () => {
             if (
                 profileCardRef.current &&
                 !profileCardRef.current.contains(event.target) &&
-                !event.target.closest(".profile-button") // Exclude profile button
+                !event.target.closest(".profile-button")
             ) {
-                setProfileOpen(false); // Close the profile card
+                setProfileOpen(false);
             }
         };
 
-        // Add event listener
         document.addEventListener("mousedown", handleClickOutside);
-
-        // Cleanup
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -46,25 +43,6 @@ const NavBar = () => {
 
                 {/* Desktop Navigation */}
                 <div className="nav-container">
-                    {user && (
-                        <div className="user-profile desktop-only">
-                            <button
-                                className="profile-button"
-                                onClick={(e) => {
-                                    e.stopPropagation(); // Prevent event propagation
-                                    setProfileOpen(!profileOpen);
-                                }}
-                            >
-                                <User size={24} /> Profile
-                            </button>
-                            {profileOpen && (
-                                <div ref={profileCardRef}>
-                                    <ProfileCard user={user} />
-                                </div>
-                            )}
-                        </div>
-                    )}
-
                     <div className="nav-links">
                         <Link to="/stats" className={`nav-link ${location.pathname === "/stats" ? "active" : ""}`}>
                             <Home className="icon" /> Home
@@ -72,6 +50,14 @@ const NavBar = () => {
                         <Link to="/shop" className={`nav-link ${location.pathname === "/shop" ? "active" : ""}`}>
                             <ShoppingCart className="icon" /> Shop
                         </Link>
+                        {user && (
+                            <Link 
+                                to={`/player/${user.pbid}`} 
+                                className={`nav-link ${location.pathname.startsWith('/player') ? "active" : ""}`}
+                            >
+                                <User className="icon" /> My Profile
+                            </Link>
+                        )}
                         <a href="https://www.youtube.com/@RIPNANI" target="_blank" rel="noopener noreferrer" className="nav-link yt-link">
                             <Youtube className="icon" /> YouTube
                         </a>
@@ -89,7 +75,7 @@ const NavBar = () => {
                         <button
                             className="profile-button mobile-profile-button"
                             onClick={(e) => {
-                                e.stopPropagation(); // Prevent event propagation
+                                e.stopPropagation();
                                 setProfileOpen(!profileOpen);
                             }}
                         >
@@ -111,6 +97,14 @@ const NavBar = () => {
                     <Link to="/shop" className={`nav-link ${location.pathname === "/shop" ? "active" : ""}`}>
                         <ShoppingCart className="icon" /> Shop
                     </Link>
+                    {user && (
+                        <Link 
+                            to={`/player/${user.pbid}`} 
+                            className={`nav-link ${location.pathname.startsWith('/player') ? "active" : ""}`}
+                        >
+                            <User className="icon" /> My Profile
+                        </Link>
+                    )}
                     <a href="https://www.youtube.com/@RIPNANI" target="_blank" rel="noopener noreferrer" className="nav-link yt-link">
                         <Youtube className="icon" /> YouTube
                     </a>
@@ -124,7 +118,7 @@ const NavBar = () => {
 
             {/* Mobile Profile Card */}
             {profileOpen && user && (
-                <div ref={profileCardRef}>
+                <div ref={profileCardRef} className="mobile-profile-card">
                     <ProfileCard user={user} />
                 </div>
             )}

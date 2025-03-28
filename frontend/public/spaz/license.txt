@@ -1,0 +1,11 @@
+Model Information:
+* title:	Bombsquad Spaz 2.0
+* source:	https://sketchfab.com/3d-models/bombsquad-spaz-20-0ce6732f2c96492aaa8e966368be8436
+* author:	Bielg3GetsNintendo (https://sketchfab.com/Bielg3GetsNintendo)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Bombsquad Spaz 2.0" (https://sketchfab.com/3d-models/bombsquad-spaz-20-0ce6732f2c96492aaa8e966368be8436) by Bielg3GetsNintendo (https://sketchfab.com/Bielg3GetsNintendo) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

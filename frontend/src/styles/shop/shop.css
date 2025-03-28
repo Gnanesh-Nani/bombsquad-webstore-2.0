@@ -67,3 +67,21 @@ h1 {
     gap: 20px;
     padding: 20px;
 }
+
+/* Mobile Profile Card */
+.mobile-profile-card {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    z-index: 1000;
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Active state for player links */
+.nav-link.active {
+    color: #f0c14b;
+    border-bottom: 2px solid #f0c14b;
+}

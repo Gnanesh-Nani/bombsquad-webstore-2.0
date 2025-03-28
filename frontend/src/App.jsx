@@ -1,4 +1,4 @@
-//App.jsx
+// Update your App.jsx
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import StatsPage from "./pages/Stats";
@@ -6,7 +6,8 @@ import LoginPage from "./pages/Login";
 import AutoLogin from "./pages/AutoLogin";
 import NavBar from "./components/NavBar";
 import Shop from "./pages/Shop";
-import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute
+import PlayerPage from "./pages/Player"; // Add this import
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/shop" element={<ProtectedRoute element={<Shop />} />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/autologin/:userId" element={<AutoLogin />} />
+                <Route path="/player/:pbid" element={<ProtectedRoute element={<PlayerPage />} />} />
             </Routes>
         </AuthProvider>
     );
