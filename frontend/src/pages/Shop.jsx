@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PurchaseItem from "../components/shop/PurchaseItem";
 import PurchaseTag from "../components/shop/PurchaseTag";
 import { useAuth } from "../context/AuthContext";
+import Footer from "../components/Footer";
 import "../styles/shop/shop.css";
 
 const Shop = () => {
@@ -85,6 +86,7 @@ const Shop = () => {
                 ))}
                 <PurchaseTag pbId={user?.pbid} />
             </div>
+            <Footer />
         </div>
     );
 };

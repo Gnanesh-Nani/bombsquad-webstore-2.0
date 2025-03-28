@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Html, Environment } from "@react-three/drei";
 import styles from "../styles/player/player.module.css";
+import Footer from "../components/Footer";
 
 const Model = () => {
   const { scene } = useGLTF("/spaz/scene.gltf");
@@ -92,123 +93,156 @@ const PlayerPage = () => {
   }, []);
 
   if (loading) return (
-    <div className={styles.statsPage}>
+    <div className={styles.loadingContainer}>
+      <div className={styles.loadingSpinner}></div>
       <div className={styles.loadingText}>Loading player data...</div>
     </div>
   );
 
   if (error) return (
-    <div className={styles.statsPage}>
-      <div className={styles.errorText}>Error: {error}</div>
+    <div className={styles.errorContainer}>
+      <div className={styles.errorIcon}>⚠️</div>
+      <div className={styles.errorText}>Error loading player data</div>
+      <div className={styles.errorDetails}>{error}</div>
     </div>
   );
 
   if (!playerData) return (
-    <div className={styles.statsPage}>
-      <div className={styles.errorText}>Player not found</div>
+    <div className={styles.notFoundContainer}>
+      <div className={styles.notFoundIcon}>🔍</div>
+      <div className={styles.notFoundText}>Player not found</div>
     </div>
   );
 
   return (
-    <div className={styles.statsPage}>
-      <div className={styles.tableHeader}>
-        <div className={styles.headerLeft}>
-          <h1>{playerData.name || pbid}</h1>
-        </div>
-        <div className={styles.headerRight}>
-          {playerData.rank && <div className={styles.playerRank}>Rank #{playerData.rank}</div>}
-        </div>
-      </div>
-
-      <div className={styles.statsTableContainer}>
-        <div className={styles.statsTableWrapper}>
-          <div className={styles.playerContent}>
-            <div className={styles.modelSection}>
-              <div className={styles.modelWrapper}>
-                <ModelViewer />
-              </div>
-              <PlayerBadges
-                effect={playerData.effect}
-                tag={playerData.tag}
-              />
+    <div className={styles.playerContainer}>
+      {/* Player Header Section */}
+      <div className={styles.playerHeader}>
+        <div className={styles.playerIdentity}>
+          <h1 className={styles.playerName}>{playerData.name || pbid}</h1>
+          {playerData.rank && (
+            <div className={styles.playerRank}>
+              <span className={styles.rankLabel}>Rank</span>
+              <span className={styles.rankValue}>#{playerData.rank}</span>
             </div>
+          )}
+        </div>
 
-            <div className={styles.dataSection}>
-              <PlayerStats
-                pbid={pbid}
-                tickets={playerData.tickets}
-                games={playerData.games}
-                lastSeen={playerData.last_seen}
-              />
-
-              <div className={styles.statsGrid}>
-                <StatCard label="Kills" value={playerData.kills} />
-                <StatCard label="Deaths" value={playerData.deaths} />
-                <StatCard label="K/D Ratio" value={playerData.kd?.toFixed(2)} />
-                <StatCard label="Total Scores" value={playerData.scores} />
-                <StatCard label="Avg Score" value={playerData.avg_score?.toFixed(2)} />
-                <StatCard label="Games Played" value={playerData.games} />
-              </div>
-            </div>
+        <div className={styles.playerMeta}>
+          <div className={styles.metaItem}>
+            <span className={styles.metaLabel}>PB-ID</span>
+            <span className={styles.metaValue}>{pbid}</span>
+          </div>
+          <div className={styles.metaItem}>
+            <span className={styles.metaLabel}>Last Seen</span>
+            <span className={styles.metaValue}>
+              {playerData.last_seen ? formatDate(playerData.last_seen) : "Unknown"}
+            </span>
           </div>
         </div>
       </div>
+
+      {/* Main Content Area */}
+      <div className={styles.playerContent}>
+        {/* Left Column - Model and Badges */}
+        <div className={styles.leftColumn}>
+          <div className={styles.modelContainer}>
+            <ModelViewer />
+          </div>
+
+          <div className={styles.badgesContainer}>
+            {playerData.effect && playerData.effect.length >= 2 && (
+              <div className={`${styles.badge} ${styles.effectBadge}`}>
+                <div className={styles.badgeIcon}>✨</div>
+                <div className={styles.badgeContent}>
+                  <div className={styles.badgeTitle}>Special Effect</div>
+                  <div className={styles.badgeName}>{playerData.effect[0]}</div>
+                  <div className={styles.badgeExpiry}>Until: {formatDate(playerData.effect[1])}</div>
+                </div>
+              </div>
+            )}
+
+            {playerData.tag && playerData.tag.length >= 2 && (
+              <div className={`${styles.badge} ${styles.tagBadge}`}>
+                <div className={styles.badgeIcon}>🏷️</div>
+                <div className={styles.badgeContent}>
+                  <div className={styles.badgeTitle}>Player Tag</div>
+                  <div className={styles.badgeName}>{playerData.tag[0]}</div>
+                  <div className={styles.badgeExpiry}>Until: {formatDate(playerData.tag[1])}</div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column - Stats */}
+        <div className={styles.rightColumn}>
+          {/* Tickets Card */}
+          <div className={styles.ticketsCard}>
+            <div className={styles.ticketsHeader}>
+              <span className={styles.ticketsLabel}>Tickets</span>
+            </div>
+            <div className={styles.ticketsValueContainer}>
+              <span className={styles.ticketsValue}>
+                {playerData.tickets?.toLocaleString() || 0}
+              </span>
+              <img
+                src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png"
+                alt="Tickets"
+                className={styles.ticketIcon}
+              />
+            </div>
+          </div>
+
+          {/* Stats Grid */}
+          <div className={styles.statsGrid}>
+            <StatCard
+              icon="🎯"
+              label="Kills"
+              value={playerData.kills}
+              color="#4ade80"
+            />
+            <StatCard
+              icon="💀"
+              label="Deaths"
+              value={playerData.deaths}
+              color="#f87171"
+            />
+            <StatCard
+              icon="⚖️"
+              label="K/D Ratio"
+              value={playerData.kd?.toFixed(2)}
+              color="#60a5fa"
+            />
+            <StatCard
+              icon="🏆"
+              label="Total Scores"
+              value={playerData.scores}
+              color="#fbbf24"
+            />
+            <StatCard
+              icon="📊"
+              label="Avg Score"
+              value={playerData.avg_score?.toFixed(2)}
+              color="#a78bfa"
+            />
+            <StatCard
+              icon="🎮"
+              label="Games Played"
+              value={playerData.games}
+              color="#f472b6"
+            />
+          </div>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };
 
-const PlayerBadges = ({ effect, tag }) => {
-  return (
-    <div className={styles.badgesContainer}>
-      {effect && effect.length >= 2 && (
-        <div className={`${styles.badge} ${styles.effectBadge}`}>
-          <span>Effect: {effect[0]}</span>
-          <span className={styles.badgeTime}>Ends: {formatDate(effect[1])}</span>
-        </div>
-      )}
-      {tag && tag.length >= 2 && (
-        <div className={`${styles.badge} ${styles.tagBadge}`}>
-          <span>Tag: {tag[0]}</span>
-          <span className={styles.badgeTime}>Ends: {formatDate(tag[1])}</span>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const PlayerStats = ({ pbid, tickets, games, lastSeen }) => (
-  <div className={styles.profileStats}>
-    <div className={styles.statRow}>
-      <span className={styles.statLabel}>PB-ID:</span>
-      <span className={styles.statValue}>{pbid}</span>
-    </div>
-    <div className={styles.statRow}>
-      <span className={styles.statLabel}>Tickets:</span>
-      <span className={styles.statValue}>
-        {tickets?.toLocaleString() || 0}
-        <img
-          src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png"
-          alt="Tickets"
-          className={styles.ticketIcon}
-        />
-      </span>
-
-    </div>
-    <div className={styles.statRow}>
-      <span className={styles.statLabel}>Games Played:</span>
-      <span className={styles.statValue}>{games}</span>
-    </div>
-    <div className={styles.statRow}>
-      <span className={styles.statLabel}>Last Seen:</span>
-      <span className={styles.statValue}>
-        {lastSeen ? formatDate(lastSeen) : "Unknown"}
-      </span>
-    </div>
-  </div>
-);
-
-const StatCard = ({ label, value }) => (
-  <div className={styles.statCard}>
+const StatCard = ({ icon, label, value, color }) => (
+  <div className={styles.statCard} style={{ '--card-color': color }}>
+    <div className={styles.statIcon}>{icon}</div>
     <div className={styles.statValue}>{value || "N/A"}</div>
     <div className={styles.statLabel}>{label}</div>
   </div>
