@@ -85,3 +85,38 @@ h1 {
     color: #f0c14b;
     border-bottom: 2px solid #f0c14b;
 }
+
+/* Login prompt container - centers the box */
+.login-prompt-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 200px; /* Adjust based on your needs */
+    margin: 20px 0;
+}
+
+/* Login prompt box styles */
+.login-prompt-box {
+    background-color: rgba(33, 37, 41, 0.8);
+    border-radius: 8px;
+    padding: 20px 30px;
+    text-align: center;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+}
+
+.login-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #ffcc00;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.login-message .icon {
+    color: #ffcc00;
+}

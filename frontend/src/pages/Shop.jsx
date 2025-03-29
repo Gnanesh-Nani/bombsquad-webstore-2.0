@@ -3,6 +3,8 @@ import PurchaseItem from "../components/shop/PurchaseItem";
 import PurchaseTag from "../components/shop/PurchaseTag";
 import { useAuth } from "../context/AuthContext";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
+import { User } from "lucide-react"
 import "../styles/shop/shop.css";
 
 const Shop = () => {
@@ -23,7 +25,7 @@ const Shop = () => {
                 console.error("Failed to fetch shop items:", error);
             }
         };
-    
+
         fetchData();
     }, [user]); // Re-fetch shop items when user changes (e.g., on reload)
     // Function to format the end date and determine its color
@@ -55,30 +57,41 @@ const Shop = () => {
         <div className="shop-page">
             <h1>MR RIP SHOP</h1>
 
-            {/* User Balance and Active Effects/Tag */}
-            <div className="user-info-box">
-                <div className="balance">
-                    <span className="label">Balance:</span><span> {user?.tickets || 0}</span>
-                    <img src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png" alt="Tickets" className="ticket-icon" />
-                </div>
-                <div className="active-effects">
-                    <span>
-                        <span className="label">Effect:</span>{" "}
-                        <span className="value">{user?.effect?.[0] || "None"}</span> <br />
-                        <span className="label">Ends on:</span>{" "}
-                        <span className="value">{formatEndDate(user?.effect?.[1])}</span>
-                    </span>
-                </div>
-                <div className="active-tag">
-                    <span>
-                        <span className="label">Tag:</span>{" "}
-                        <span className="value">{user?.tag?.[0] || "None"}</span> <br />
-                        <span className="label">Ends on:</span>{" "}
-                        <span className="value">{formatEndDate(user?.tag?.[1])}</span>
-                    </span>
-                </div>
-            </div>
-
+            {
+                user ? (<div className="user-info-box">
+                    <div className="balance">
+                        <span className="label">Balance:</span><span> {user?.tickets || 0}</span>
+                        <img src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png" alt="Tickets" className="ticket-icon" />
+                    </div>
+                    <div className="active-effects">
+                        <span>
+                            <span className="label">Effect:</span>{" "}
+                            <span className="value">{user?.effect?.[0] || "None"}</span> <br />
+                            <span className="label">Ends on:</span>{" "}
+                            <span className="value">{formatEndDate(user?.effect?.[1])}</span>
+                        </span>
+                    </div>
+                    <div className="active-tag">
+                        <span>
+                            <span className="label">Tag:</span>{" "}
+                            <span className="value">{user?.tag?.[0] || "None"}</span> <br />
+                            <span className="label">Ends on:</span>{" "}
+                            <span className="value">{formatEndDate(user?.tag?.[1])}</span>
+                        </span>
+                    </div>
+                </div>)
+                    :
+                    (
+                        <Link to="/login" className="login-prompt-container">
+                            <div className="login-prompt-box">
+                                <div className="login-message">
+                                    <User className="icon" size={20} />
+                                    <span>Please Login First</span>
+                                </div>
+                            </div>
+                        </Link>
+                    )
+            }
             {/* Shop Items */}
             <div className="shop-container">
                 {items.map((item, index) => (

@@ -1,0 +1,86 @@
+.notification {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 10000;
+  animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  max-width: 350px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.notification.success {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.9), rgba(39, 174, 96, 0.95));
+}
+
+.notification.error {
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.95));
+}
+
+.notification.info {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.95));
+}
+
+.notification.warning {
+  background: linear-gradient(135deg, rgba(241, 196, 15, 0.9), rgba(243, 156, 18, 0.95));
+}
+
+.notification-icon {
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex-grow: 1;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.notification-close:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%) translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.notification.exiting {
+  animation: slideOut 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}

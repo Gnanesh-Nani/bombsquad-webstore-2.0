@@ -13,10 +13,6 @@ const StatsPage = () => {
 
     useEffect(() => {
         const fetchStats = async () => {
-            if (!user) {
-                console.warn("⚠️ No user logged in, skipping stats fetch.");
-                return;
-            }
 
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/stats`);

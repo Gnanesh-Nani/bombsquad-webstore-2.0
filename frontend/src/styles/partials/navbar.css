@@ -72,6 +72,24 @@
     border-bottom: 2px solid #ffcc00;
 }
 
+.btn-profile {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-family: 'Russo One', sans-serif;
+    transition: color 0.3s;
+}
+
+.btn-profile:hover {
+    color: grey;
+}
+
+
 /* Logout Button */
 .btn-logout {
     background-color: #ff4444;

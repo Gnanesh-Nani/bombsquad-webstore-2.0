@@ -2,3 +2,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Add this to your main CSS file (index.css) */
+#global-notification-root {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  
+  /* Remove position styles from .notification class */
+  .notification {
+    /* Remove position: fixed and top/right properties */
+    padding: 16px 24px;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 10000;
+    animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    max-width: 350px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Add these positioning properties */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }

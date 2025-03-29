@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useNotification } from "../../context/NotificationContext";
 import "../../styles/shop/purchaseTag.css";
 
 const PurchaseTag = ({ pbId }) => {
@@ -7,6 +8,7 @@ const PurchaseTag = ({ pbId }) => {
     const [color, setColor] = useState("#ffffff");
     const [days, setDays] = useState(1);
     const { updateUser } = useAuth();
+    const { showNotification } = useNotification();
 
     // Predefined color options for the dropdown
     const colorOptions = [
@@ -22,17 +24,17 @@ const PurchaseTag = ({ pbId }) => {
 
     const buyTag = async () => {
         if (!pbId) {
-            alert("Please log in first!");
+            showNotification("Please log in first!", "error");
             return;
         }
 
         if (tag.trim() === "") {
-            alert("Tag name cannot be empty.");
+            showNotification("Tag name cannot be empty", "warning");
             return;
         }
 
         if (days < 1) {
-            alert("Days must be at least 1.");
+            showNotification("Days must be at least 1", "warning");
             return;
         }
 
@@ -44,16 +46,23 @@ const PurchaseTag = ({ pbId }) => {
                 body: JSON.stringify({ pbId, tagName: tag, price: 100, days, color }),
             });
 
-            if (!response.ok) throw new Error("Failed to purchase tag");
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to purchase tag");
+            }
 
             const data = await response.json();
-            alert(data.message || "Tag purchased successfully!");
+            console.log(data)
+            if(data.success===false)
+                showNotification(data.message || "Failed to purchase tag", "error");
+            else    
+                showNotification(data.message || "Tag purchased successfully!", "success");
 
             if (data.user) {
                 updateUser(data.user);
             }
         } catch (error) {
-            alert("Error: " + error.message + 'MEOW');
+            showNotification( "Failed to purchase tag", "warning");
         }
     };
 
