@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useNotification } from "../../context/NotificationContext"; // Import the hook
-import "../../styles/shop/purchaseItem.css";
+import { useNotification } from "../../context/NotificationContext";
+import styles from "../../styles/shop/purchaseItem.module.css"; // Updated import
 
 const PurchaseItem = ({ item, pbId }) => {
     const [days, setDays] = useState(1);
     const { updateUser } = useAuth();
-    const { showNotification } = useNotification(); // Get the notification function from context
+    const { showNotification } = useNotification();
 
     const buyItem = async () => {
         if (!pbId) {
@@ -53,28 +53,27 @@ const PurchaseItem = ({ item, pbId }) => {
     };
 
     return (
-        <div className="shop-card">
-            {/* Removed local Notification component - now handled globally */}
-            <img src={item.image} alt={item.name} className="item-image" />
-            <div className="shop-card-body">
-                <h5 className="shop-card-title">{item.name}</h5>
-                <div className="price-container">
-                    <span className="price">{item.price}</span>
+        <div className={styles.shopCard}>
+            <img src={item.image} alt={item.name} className={styles.itemImage} />
+            <div className={styles.shopCardBody}>
+                <h5 className={styles.shopCardTitle}>{item.name}</h5>
+                <div className={styles.priceContainer}>
+                    <span className={styles.price}>{item.price}</span>
                     <img 
                         src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png" 
                         alt="Tickets" 
-                        className="ticket-icon" 
+                        className={styles.ticketIcon} 
                     />
-                    <span className="per-day">/ day</span>
+                    <span className={styles.perDay}>/ day</span>
                 </div>
                 <input
                     type="number"
                     min="1"
                     value={days}
                     onChange={(e) => setDays(parseInt(e.target.value, 10) || 1)}
-                    className="days-input"
+                    className={styles.daysInput}
                 />
-                <button className="buy-button" onClick={buyItem}>
+                <button className={styles.buyButton} onClick={buyItem}>
                     Buy Now
                 </button>
             </div>

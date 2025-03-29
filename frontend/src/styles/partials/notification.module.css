@@ -16,34 +16,34 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.notification.success {
+.success {
   background: linear-gradient(135deg, rgba(46, 204, 113, 0.9), rgba(39, 174, 96, 0.95));
 }
 
-.notification.error {
+.error {
   background: linear-gradient(135deg, rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.95));
 }
 
-.notification.info {
+.info {
   background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.95));
 }
 
-.notification.warning {
+.warning {
   background: linear-gradient(135deg, rgba(241, 196, 15, 0.9), rgba(243, 156, 18, 0.95));
 }
 
-.notification-icon {
+.notificationIcon {
   flex-shrink: 0;
 }
 
-.notification-content {
+.notificationContent {
   flex-grow: 1;
   font-size: 14px;
   line-height: 1.5;
   font-weight: 500;
 }
 
-.notification-close {
+.notificationClose {
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.7);
@@ -54,7 +54,7 @@
   border-radius: 50%;
 }
 
-.notification-close:hover {
+.notificationClose:hover {
   color: white;
   background: rgba(255, 255, 255, 0.1);
 }
@@ -81,6 +81,6 @@
   }
 }
 
-.notification.exiting {
+.exiting {
   animation: slideOut 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
 }

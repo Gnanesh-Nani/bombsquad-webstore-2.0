@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNotification } from "../../context/NotificationContext";
-import "../../styles/shop/purchaseTag.css";
+import styles from "../../styles/shop/purchaseTag.module.css"; // Updated import
 
 const PurchaseTag = ({ pbId }) => {
     const [tag, setTag] = useState("");
@@ -10,7 +10,6 @@ const PurchaseTag = ({ pbId }) => {
     const { updateUser } = useAuth();
     const { showNotification } = useNotification();
 
-    // Predefined color options for the dropdown
     const colorOptions = [
         { value: "#FF0000", label: "Red" },
         { value: "#00FF00", label: "Green" },
@@ -67,28 +66,28 @@ const PurchaseTag = ({ pbId }) => {
     };
 
     return (
-        <div className="shop-card">
-            <img src="/images/effects/tag.png" alt="Tag" className="tag-image" />
-            <h5 className="shop-card-title">Buy a Tag</h5>
-            <div className="price-container">
-                <span className="price">100</span>
-                <img src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png" alt="Tickets" className="ticket-icon" />
-                <span className="per-day">/ day</span>
+        <div className={styles.shopCard}>
+            <img src="/images/effects/tag.png" alt="Tag" className={styles.tagImage} />
+            <h5 className={styles.shopCardTitle}>Buy a Tag</h5>
+            <div className={styles.priceContainer}>
+                <span className={styles.price}>100</span>
+                <img src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png" alt="Tickets" className={styles.ticketIcon} />
+                <span className={styles.perDay}>/ day</span>
             </div>
             <input
                 type="text"
                 placeholder="Enter tag name"
                 value={tag}
                 onChange={(e) => setTag(e.target.value)}
-                className="tag-input"
+                className={styles.tagInput}
             />
-            <div className="color-picker-container">
+            <div className={styles.colorPickerContainer}>
                 <label htmlFor="color-picker">Choose a color:</label>
                 <select
                     id="color-picker"
                     value={color}
                     onChange={(e) => setColor(e.target.value)}
-                    className="color-picker"
+                    className={styles.colorPicker}
                 >
                     {colorOptions.map((option) => (
                         <option key={option.value} value={option.value}>
@@ -102,9 +101,9 @@ const PurchaseTag = ({ pbId }) => {
                 min="1"
                 value={days}
                 onChange={(e) => setDays(parseInt(e.target.value, 10) || 1)}
-                className="days-input"
+                className={styles.daysInput}
             />
-            <button className="buy-button" onClick={buyTag}>Buy Tag</button>
+            <button className={styles.buyButton} onClick={buyTag}>Buy Tag</button>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-.shop-card {
+.shopCard {
     width: 220px;
     height: 550px;
     margin: 15px;
@@ -15,11 +15,11 @@
     padding: 10px;
 }
 
-.shop-card:hover {
+.shopCard:hover {
     transform: translateY(-10px);
 }
 
-.shop-card-title {
+.shopCardTitle {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 10px;
@@ -27,7 +27,7 @@
     text-align: center;
 }
 
-.price-container {
+.priceContainer {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -39,18 +39,18 @@
     color: #ffc107;
 }
 
-.ticket-icon {
+.ticketIcon {
     width: 16px;
     height: 16px;
     vertical-align: middle;
 }
 
-.per-day {
+.perDay {
     font-size: 0.9em;
     color: #ccc;
 }
 
-.tag-input, .days-input {
+.tagInput, .daysInput {
     width: 100%;
     padding: 5px;
     margin-bottom: 10px;
@@ -61,7 +61,7 @@
     text-align: center;
 }
 
-.color-picker-container {
+.colorPickerContainer {
     width: 100%;
     margin-bottom: 10px;
     display: flex;
@@ -69,13 +69,13 @@
     align-items: center;
 }
 
-.color-picker-container label {
+.colorPickerContainer label {
     font-size: 0.9em;
     color: white;
     margin-bottom: 5px;
 }
 
-.color-picker {
+.colorPicker {
     width: 100%;
     padding: 5px;
     border-radius: 5px;
@@ -85,23 +85,23 @@
     cursor: pointer;
 }
 
-.buy-button {
+.buyButton {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: #FFD700; /* Gold color */
-    color: #000; /* Black text for better contrast */
+    background-color: #FFD700;
+    color: #000;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-weight: bold; /* Make text bold */
+    font-weight: bold;
 }
 
-.buy-button:hover {
-    background-color: #FFC107; /* Slightly darker gold on hover */
+.buyButton:hover {
+    background-color: #FFC107;
 }
 
-.tag-image {
+.tagImage {
     width: 100%;
     height: 60%;
     object-fit: cover;

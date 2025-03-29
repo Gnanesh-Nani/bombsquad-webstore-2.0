@@ -1,4 +1,4 @@
-.shop-page {
+.shopPage {
     min-height: 100vh;
     background-color: #1a202c;
     color: white;
@@ -9,7 +9,7 @@
     position: relative;
 }
 
-h1 {
+.shopPage h1 {
     font-family: 'Russo One', sans-serif;
     font-size: 3rem;
     text-align: center;
@@ -17,7 +17,7 @@ h1 {
     color: white;
 }
 
-.user-info-box {
+.userInfoBox {
     background-color: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 10px;
@@ -29,13 +29,13 @@ h1 {
     margin-right: auto;
 }
 
-.user-info-box div {
+.userInfoBox div {
     margin-bottom: 10px;
     font-size: 1.2rem;
     color: white;
 }
 
-.user-info-box div:last-child {
+.userInfoBox div:last-child {
     margin-bottom: 0;
 }
 
@@ -45,7 +45,7 @@ h1 {
     gap: 5px;
 }
 
-.ticket-icon {
+.ticketIcon {
     width: 16px;
     height: 16px;
     vertical-align: middle;
@@ -60,7 +60,7 @@ h1 {
     color: #ffc107; /* Yellow for values */
 }
 
-.shop-container {
+.shopContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -69,7 +69,7 @@ h1 {
 }
 
 /* Mobile Profile Card */
-.mobile-profile-card {
+.mobileProfileCard {
     position: fixed;
     top: 70px;
     right: 20px;
@@ -81,13 +81,13 @@ h1 {
 }
 
 /* Active state for player links */
-.nav-link.active {
+.navLink.active {
     color: #f0c14b;
     border-bottom: 2px solid #f0c14b;
 }
 
 /* Login prompt container - centers the box */
-.login-prompt-container {
+.loginPromptContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,7 +97,7 @@ h1 {
 }
 
 /* Login prompt box styles */
-.login-prompt-box {
+.loginPromptBox {
     background-color: rgba(33, 37, 41, 0.8);
     border-radius: 8px;
     padding: 20px 30px;
@@ -107,7 +107,7 @@ h1 {
     max-width: 80%;
 }
 
-.login-message {
+.loginMessage {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,6 +117,6 @@ h1 {
     font-size: 1.2rem;
 }
 
-.login-message .icon {
+.loginMessage .icon {
     color: #ffcc00;
 }

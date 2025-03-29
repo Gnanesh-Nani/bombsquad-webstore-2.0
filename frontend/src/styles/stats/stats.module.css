@@ -1,0 +1,185 @@
+.statsPage {
+    min-height: 100vh;
+    background-color: #1a202c;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    background-image: url('https://mdbootstrap.com/img/Photos/new-templates/glassmorphism-article/img7.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.title {
+    font-size: 2.25rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.error {
+    color: rgb(239, 68, 68);
+    font-weight: 600;
+}
+
+.tableHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 64rem;
+    margin: 0.5rem 0;
+}
+
+.headerLeft, .headerRight {
+    display: flex;
+    align-items: center;
+}
+
+.headerLeft {
+    margin-left: 1rem;
+}
+
+.headerRight {
+    margin-right: 1rem;
+}
+
+.eyeIcon {
+    color: rgb(96, 165, 250);
+    font-size: 1.5rem;
+}
+
+.visitorCount {
+    font-size: 1.125rem;
+    margin-left: 0.5rem;
+}
+
+.seasonDate {
+    font-size: 1.125rem;
+}
+
+.statsTableContainer {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 0.5rem;
+}
+
+.statsTableWrapper {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.statsTable {
+    width: 100%;
+    text-align: center;
+    color: white;
+    border-collapse: collapse;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.statsTable th {
+    background-color: #4d5359;
+    color: white;
+    font-weight: 600;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+.statsTable td {
+    padding: 0.75rem 1rem;
+}
+
+.rankHeader {
+    background-color: #606970;
+    color: white;
+}
+
+.rankColumn {
+    background-color: #4d5359;
+    color: white;
+    font-weight: 500;
+}
+
+.rankIconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trophyIcon {
+    color: rgb(250, 204, 21);
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+.medalIcon {
+    color: rgb(156, 163, 175);
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+.awardIcon {
+    color: rgb(249, 115, 22);
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+.rank1 {
+    background-color: rgba(255, 215, 0, 0.8);
+    font-weight: 500;
+}
+
+.rank2 {
+    background-color: rgba(192, 192, 192, 0.8);
+    font-weight: 500;
+}
+
+.rank3 {
+    background-color: rgba(205, 127, 50, 0.8);
+    font-weight: 500;
+}
+
+.evenRow {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.oddRow {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hideMobile {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .hideMobile {
+        display: table-cell;
+    }
+}
+
+.loadingText {
+    font-size: 1.125rem;
+    margin-top: 1rem;
+    color: rgba(156, 163, 175, 1);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}

@@ -1,4 +1,4 @@
-.shop-card {
+.shopCard {
     width: 220px;
     height: 410px;
     margin: 15px;
@@ -11,20 +11,23 @@
     transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
+    padding: 10px; /* Added padding to match PurchaseTag */
 }
 
-.shop-card:hover {
+.shopCard:hover {
     transform: translateY(-10px);
 }
 
-.item-image {
+.itemImage {
     width: 100%;
     height: 60%;
     object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Added border to match PurchaseTag */
+    margin-bottom: 10px; /* Added margin to separate from content */
 }
 
-.shop-card-body {
-    padding: 10px;
+.shopCardBody {
+    padding: 0 10px; /* Adjusted padding */
     color: white;
     flex-grow: 1;
     display: flex;
@@ -32,14 +35,15 @@
     justify-content: space-between;
 }
 
-.shop-card-title {
+/* Rest of your existing styles remain the same */
+.shopCardTitle {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
 }
 
-.price-container {
+.priceContainer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,18 +56,18 @@
     color: #ffc107;
 }
 
-.ticket-icon {
+.ticketIcon {
     width: 16px;
     height: 16px;
     vertical-align: middle;
 }
 
-.per-day {
+.perDay {
     font-size: 0.9em;
     color: #ccc;
 }
 
-.days-input {
+.daysInput {
     width: 100%;
     padding: 5px;
     margin-bottom: 10px;
@@ -74,18 +78,18 @@
     text-align: center;
 }
 
-.buy-button {
+.buyButton {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: #FFD700; /* Gold color */
-    color: #000; /* Black text for better contrast */
+    background-color: #FFD700;
+    color: #000;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-weight: bold; /* Make text bold */
+    font-weight: bold;
 }
 
-.buy-button:hover {
-    background-color: #FFC107; /* Slightly darker gold on hover */
+.buyButton:hover {
+    background-color: #FFC107;
 }

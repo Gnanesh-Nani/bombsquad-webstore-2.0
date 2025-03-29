@@ -1,10 +1,10 @@
 import React from "react";
-import "../styles/partials/footer.css";
+import styles from "../styles/partials/footer.module.css"; // Updated import
 
 const Footer = () => {
     return (
-        <footer className="footer">
-            <p className="footer-text">Mr-Rip Official &copy; {new Date().getFullYear()} All rights reserved.</p>
+        <footer className={styles.footer}>
+            <p className={styles.footerText}>Mr-Rip Official &copy; {new Date().getFullYear()} All rights reserved.</p>
         </footer>
     );
 };

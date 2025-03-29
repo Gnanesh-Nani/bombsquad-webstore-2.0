@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useNotification } from "../context/NotificationContext"; // Import the context
+import { useNotification } from "../context/NotificationContext";
 import { Menu, X, ShoppingCart, Home, Youtube, LogOut, User, LogIn } from "lucide-react";
-import "../styles/partials/navbar.css";
+import styles from "../styles/partials/navbar.module.css"; // Updated import
 
 const NavBar = () => {
     const { user, logout } = useAuth();
-    const { showNotification } = useNotification(); // Get the notification function from context
+    const { showNotification } = useNotification();
     const navigate = useNavigate();
     const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -36,44 +36,43 @@ const NavBar = () => {
     };
 
     return (
-        <nav className="navbar">
-            {/* Removed the local Notification component */}
-            <div className="container">
-                <Link to="/stats" className="navbar-brand">MR RIP - TEAMS</Link>
+        <nav className={styles.navbar}>
+            <div className={styles.container}>
+                <Link to="/stats" className={styles.navbarBrand}>MR RIP - TEAMS</Link>
 
                 {/* Desktop Navigation */}
-                <div className="nav-container">
-                    <div className="nav-links">
-                        <Link to="/stats" className={`nav-link ${location.pathname === "/stats" ? "active" : ""}`}>
-                            <Home className="icon" /> Home
+                <div className={styles.navContainer}>
+                    <div className={styles.navLinks}>
+                        <Link to="/stats" className={`${styles.navLink} ${location.pathname === "/stats" ? styles.active : ""}`}>
+                            <Home className={styles.icon} /> Home
                         </Link>
-                        <Link to="/shop" className={`nav-link ${location.pathname === "/shop" ? "active" : ""}`}>
-                            <ShoppingCart className="icon" /> Shop
+                        <Link to="/shop" className={`${styles.navLink} ${location.pathname === "/shop" ? styles.active : ""}`}>
+                            <ShoppingCart className={styles.icon} /> Shop
                         </Link>
                         <button 
                             onClick={handleProfileClick}
-                            className={`nav-link ${location.pathname.startsWith('/player') ? "active" : ""}`}
+                            className={`${styles.navLink} ${location.pathname.startsWith('/player') ? styles.active : ""}`}
                         >
-                            <User className="icon" /> My Profile
+                            <User className={styles.icon} /> My Profile
                         </button>
-                        <a href="https://www.youtube.com/@RIPNANI" target="_blank" rel="noopener noreferrer" className="nav-link yt-link">
-                            <Youtube className="icon" /> YouTube
+                        <a href="https://www.youtube.com/@RIPNANI" target="_blank" rel="noopener noreferrer" className={`${styles.navLink} ${styles.ytLink}`}>
+                            <Youtube className={styles.icon} /> YouTube
                         </a>
                         {user ? (
-                            <button onClick={handleLogout} className="btn btn-logout">
-                                <LogOut className="icon" /> Logout
+                            <button onClick={handleLogout} className={styles.btnLogout}>
+                                <LogOut className={styles.icon} /> Logout
                             </button>
                         ) : (
-                            <button onClick={handleLogin} className="btn btn-logout">
-                                <LogIn className="icon" /> Login
+                            <button onClick={handleLogin} className={styles.btnLogout}>
+                                <LogIn className={styles.icon} /> Login
                             </button>
                         )}
                     </div>
                 </div>
 
                 {/* Mobile Menu Toggle */}
-                <div className="mobile-menu">
-                    <button className="mobile-menu-button" onClick={() => setMenuOpen(!menuOpen)}>
+                <div className={styles.mobileMenu}>
+                    <button className={styles.mobileMenuButton} onClick={() => setMenuOpen(!menuOpen)}>
                         {menuOpen ? <X size={30} /> : <Menu size={30} />}
                     </button>
                 </div>
@@ -81,29 +80,29 @@ const NavBar = () => {
 
             {/* Mobile Navigation Links */}
             {menuOpen && (
-                <div className="mobile-nav-links">
-                    <Link to="/stats" className={`nav-link ${location.pathname === "/stats" ? "active" : ""}`}>
-                        <Home className="icon" /> Home
+                <div className={styles.mobileNavLinks}>
+                    <Link to="/stats" className={`${styles.navLink} ${location.pathname === "/stats" ? styles.active : ""}`}>
+                        <Home className={styles.icon} /> Home
                     </Link>
-                    <Link to="/shop" className={`nav-link ${location.pathname === "/shop" ? "active" : ""}`}>
-                        <ShoppingCart className="icon" /> Shop
+                    <Link to="/shop" className={`${styles.navLink} ${location.pathname === "/shop" ? styles.active : ""}`}>
+                        <ShoppingCart className={styles.icon} /> Shop
                     </Link>
                     <button
                         onClick={handleProfileClick}
-                        className={`nav-link ${location.pathname.startsWith('/player') ? "active" : ""}`}
+                        className={`${styles.navLink} ${location.pathname.startsWith('/player') ? styles.active : ""}`}
                     >
-                        <User className="icon" /> My Profile
+                        <User className={styles.icon} /> My Profile
                     </button>
-                    <a href="https://www.youtube.com/@RIPNANI" target="_blank" rel="noopener noreferrer" className="nav-link yt-link">
-                        <Youtube className="icon" /> YouTube
+                    <a href="https://www.youtube.com/@RIPNANI" target="_blank" rel="noopener noreferrer" className={`${styles.navLink} ${styles.ytLink}`}>
+                        <Youtube className={styles.icon} /> YouTube
                     </a>
                     {user ? (
-                        <button onClick={handleLogout} className="btn btn-logout">
-                            <LogOut className="icon" /> Logout
+                        <button onClick={handleLogout} className={styles.btnLogout}>
+                            <LogOut className={styles.icon} /> Logout
                         </button>
                     ) : (
-                        <button onClick={handleLogin} className="btn btn-logout">
-                            <LogIn className="icon" /> Login
+                        <button onClick={handleLogin} className={styles.btnLogout}>
+                            <LogIn className={styles.icon} /> Login
                         </button>
                     )}
                 </div>

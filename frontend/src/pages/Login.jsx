@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
-import "../styles/login/login.css";
+import styles from "../styles/login/login.module.css"; // Updated import
 
 const LoginPage = () => {
     const [pbId, setPbId] = useState("");
@@ -38,32 +38,32 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="login-page">
-            <div className="login-container">
-                <h2 className="login-title">Login</h2>
-                <form onSubmit={handleLogin} className="login-form">
-                    <div className="form-group">
+        <div className={styles.loginPage}>
+            <div className={styles.loginContainer}>
+                <h2 className={styles.loginTitle}>Login</h2>
+                <form onSubmit={handleLogin} className={styles.loginForm}>
+                    <div className={styles.formGroup}>
                         <label>PB-ID:</label>
                         <input 
                             type="text" 
                             value={pbId} 
                             onChange={(e) => setPbId(e.target.value)} 
                             required 
-                            className="form-input"
+                            className={styles.formInput}
                         />
                     </div>
-                    <div className="form-group">
+                    <div className={styles.formGroup}>
                         <label>Password:</label>
                         <input 
                             type="password" 
                             value={password} 
                             onChange={(e) => setPassword(e.target.value)} 
                             required 
-                            className="form-input"
+                            className={styles.formInput}
                         />
                     </div>
-                    <button type="submit" className="login-button">Login</button>
-                    <small className="form-text text-muted">
+                    <button type="submit" className={styles.loginButton}>Login</button>
+                    <small className={styles.formText}>
                         Note: Please grab your PB-ID and password from the MR-RIP SERVER using the <code>/password</code> command.
                     </small>
                 </form>

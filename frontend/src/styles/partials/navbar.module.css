@@ -11,7 +11,7 @@
 }
 
 /* Navbar brand */
-.navbar-brand {
+.navbarBrand {
     font-size: 1.75rem;
     color: #ffcc00;
     text-decoration: none;
@@ -27,7 +27,7 @@
 }
 
 /* Navigation container */
-.nav-container {
+.navContainer {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -36,7 +36,7 @@
 }
 
 /* Profile Button */
-.profile-button {
+.profileButton {
     background: none;
     border: none;
     color: white;
@@ -46,14 +46,14 @@
 }
 
 /* Desktop Navigation Links */
-.nav-links {
+.navLinks {
     display: flex;
     gap: 20px;
     align-items: center;
 }
 
 /* Navigation links */
-.nav-link {
+.navLink {
     font-size: 1.2rem;
     color: white;
     text-decoration: none;
@@ -63,16 +63,16 @@
     transition: color 0.3s;
 }
 
-.nav-link:hover {
+.navLink:hover {
     color: grey;
 }
 
 /* Active link */
-.nav-link.active {
+.active {
     border-bottom: 2px solid #ffcc00;
 }
 
-.btn-profile {
+.btnProfile {
     background: none;
     border: none;
     color: white;
@@ -85,13 +85,12 @@
     transition: color 0.3s;
 }
 
-.btn-profile:hover {
+.btnProfile:hover {
     color: grey;
 }
 
-
 /* Logout Button */
-.btn-logout {
+.btnLogout {
     background-color: #ff4444;
     color: white;
     font-size: 1rem;
@@ -105,16 +104,16 @@
     transition: background 0.3s;
 }
 
-.btn-logout:hover {
+.btnLogout:hover {
     background-color: #cc0000;
 }
 
 /* Mobile View */
-.mobile-menu {
+.mobileMenu {
     display: none;
 }
 
-.mobile-menu-button {
+.mobileMenuButton {
     background: none;
     border: none;
     color: white;
@@ -123,12 +122,12 @@
 }
 
 /* Mobile Profile Button */
-.mobile-profile-button {
+.mobileProfileButton {
     display: none;
 }
 
 /* Mobile Navigation Links */
-.mobile-nav-links {
+.mobileNavLinks {
     display: none;
     position: absolute;
     top: 100%;
@@ -141,41 +140,55 @@
     padding: 10px;
 }
 
-.mobile-nav-links .nav-link,
-.mobile-nav-links .btn-logout {
+.mobileNavLinks .navLink,
+.mobileNavLinks .btnLogout {
     width: 100%;
     justify-content: flex-start;
     padding: 10px;
 }
 
+/* YouTube link specific styling */
+.ytLink {
+    color: #ff0000;
+}
+
+.ytLink:hover {
+    color: #cc0000;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
 @media (max-width: 768px) {
-    .nav-links {
+    .navLinks {
         display: none;
     }
 
-    .mobile-menu {
+    .mobileMenu {
         display: flex;
         justify-content: flex-end;
         width: 100%;
         gap: 10px;
     }
 
-    .mobile-menu-button {
+    .mobileMenuButton {
         display: block;
     }
 
-    .mobile-profile-button {
+    .mobileProfileButton {
         display: block;
     }
 
-    .mobile-nav-links {
+    .mobileNavLinks {
         display: flex;
         flex-direction: column;
         text-align: left;
     }
 
     /* Hide profile button in desktop view */
-    .user-profile.desktop-only {
+    .userProfile.desktopOnly {
         display: none;
     }
 }

@@ -4,8 +4,8 @@ import PurchaseTag from "../components/shop/PurchaseTag";
 import { useAuth } from "../context/AuthContext";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-import { User } from "lucide-react"
-import "../styles/shop/shop.css";
+import { User } from "lucide-react";
+import styles from "../styles/shop/shop.module.css";
 
 const Shop = () => {
     const { user } = useAuth();
@@ -28,7 +28,7 @@ const Shop = () => {
 
         fetchData();
     }, [user]); // Re-fetch shop items when user changes (e.g., on reload)
-    // Function to format the end date and determine its color
+
     const formatEndDate = (endDate) => {
         if (!endDate) return "None";
 
@@ -37,7 +37,6 @@ const Shop = () => {
         const timeDifference = date - now;
         const hoursLeft = Math.floor(timeDifference / (1000 * 60 * 60));
 
-        // Format the date in a simple format (e.g., "Oct 25, 2023, 10:30 AM")
         const formattedDate = date.toLocaleString("en-US", {
             month: "short",
             day: "numeric",
@@ -47,53 +46,56 @@ const Shop = () => {
             hour12: true,
         });
 
-        // Determine the color based on the time left
         const color = hoursLeft < 5 ? "red" : "white";
 
         return <span style={{ color }}>{formattedDate}</span>;
     };
 
     return (
-        <div className="shop-page">
+        <div className={styles.shopPage}>
             <h1>MR RIP SHOP</h1>
 
-            {
-                user ? (<div className="user-info-box">
-                    <div className="balance">
-                        <span className="label">Balance:</span><span> {user?.tickets || 0}</span>
-                        <img src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png" alt="Tickets" className="ticket-icon" />
+            {user ? (
+                <div className={styles.userInfoBox}>
+                    <div className={styles.balance}>
+                        <span className={styles.label}>Balance:</span>
+                        <span> {user?.tickets || 0}</span>
+                        <img 
+                            src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png" 
+                            alt="Tickets" 
+                            className={styles.ticketIcon} 
+                        />
                     </div>
-                    <div className="active-effects">
+                    <div className={styles.activeEffects}>
                         <span>
-                            <span className="label">Effect:</span>{" "}
-                            <span className="value">{user?.effect?.[0] || "None"}</span> <br />
-                            <span className="label">Ends on:</span>{" "}
-                            <span className="value">{formatEndDate(user?.effect?.[1])}</span>
+                            <span className={styles.label}>Effect:</span>{" "}
+                            <span className={styles.value}>{user?.effect?.[0] || "None"}</span> <br />
+                            <span className={styles.label}>Ends on:</span>{" "}
+                            <span className={styles.value}>{formatEndDate(user?.effect?.[1])}</span>
                         </span>
                     </div>
-                    <div className="active-tag">
+                    <div className={styles.activeTag}>
                         <span>
-                            <span className="label">Tag:</span>{" "}
-                            <span className="value">{user?.tag?.[0] || "None"}</span> <br />
-                            <span className="label">Ends on:</span>{" "}
-                            <span className="value">{formatEndDate(user?.tag?.[1])}</span>
+                            <span className={styles.label}>Tag:</span>{" "}
+                            <span className={styles.value}>{user?.tag?.[0] || "None"}</span> <br />
+                            <span className={styles.label}>Ends on:</span>{" "}
+                            <span className={styles.value}>{formatEndDate(user?.tag?.[1])}</span>
                         </span>
                     </div>
-                </div>)
-                    :
-                    (
-                        <Link to="/login" className="login-prompt-container">
-                            <div className="login-prompt-box">
-                                <div className="login-message">
-                                    <User className="icon" size={20} />
-                                    <span>Please Login First</span>
-                                </div>
-                            </div>
-                        </Link>
-                    )
-            }
+                </div>
+            ) : (
+                <Link to="/login" className={styles.loginPromptContainer}>
+                    <div className={styles.loginPromptBox}>
+                        <div className={styles.loginMessage}>
+                            <User className={styles.icon} size={20} />
+                            <span>Please Login First</span>
+                        </div>
+                    </div>
+                </Link>
+            )}
+
             {/* Shop Items */}
-            <div className="shop-container">
+            <div className={styles.shopContainer}>
                 {items.map((item, index) => (
                     <PurchaseItem key={index} item={item} pbId={user?.pbid} />
                 ))}

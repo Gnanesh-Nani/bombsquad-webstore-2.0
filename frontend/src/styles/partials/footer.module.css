@@ -2,11 +2,11 @@
     width: 100%;
     padding: 1rem;
     text-align: center;
-    background: rgba(0, 0, 0, 0.2); /* Semi-transparent dark background */
+    background: rgba(0, 0, 0, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.footer-text {
+.footerText {
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.8);
     margin: 0;
@@ -17,7 +17,7 @@
     .footer {
         padding: 0.8rem;
     }
-    .footer-text {
+    .footerText {
         font-size: 0.8rem;
     }
 }

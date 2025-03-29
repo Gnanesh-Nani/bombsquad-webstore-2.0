@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
 import { FaTrophy, FaMedal, FaAward, FaEye } from "react-icons/fa";
-import "../styles/stats/stats.css";
+import styles from "../styles/stats/stats.module.css"; // Updated import
 
 const StatsPage = () => {
     const { user } = useAuth();
@@ -13,7 +13,6 @@ const StatsPage = () => {
 
     useEffect(() => {
         const fetchStats = async () => {
-
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/stats`);
                 const data = await response.json();
@@ -35,22 +34,21 @@ const StatsPage = () => {
         };
 
         fetchStats();
-    }, [user]); // Re-fetch stats when user changes (e.g., on reload)
+    }, [user]);
 
     return (
-        <div className="stats-page">
-            <h1 className="text-4xl font-bold text-center my-4">MR RIP-TEAM-STATS</h1>
+        <div className={styles.statsPage}>
+            <h1 className={styles.title}>MR RIP-TEAM-STATS</h1>
 
-            {error && <p className="text-red-500 font-semibold">{error}</p>}
+            {error && <p className={styles.error}>{error}</p>}
 
-            {/* Blue Eye Icon and Visits */}
-            <div className="table-header">
-                <div className="header-left">
-                    <FaEye className="text-blue-400 text-2xl" />
-                    <span className="text-lg ml-2">{visitorCount}</span>
+            <div className={styles.tableHeader}>
+                <div className={styles.headerLeft}>
+                    <FaEye className={styles.eyeIcon} />
+                    <span className={styles.visitorCount}>{visitorCount}</span>
                 </div>
-                <div className="header-right">
-                    <span className="text-lg">
+                <div className={styles.headerRight}>
+                    <span className={styles.seasonDate}>
                         Start Date: {new Date(seasonStartDate).toLocaleDateString('en-GB', {
                             day: '2-digit',
                             month: 'short',
@@ -61,20 +59,20 @@ const StatsPage = () => {
             </div>
 
             {stats ? (
-                <div className="stats-table-container">
-                    <div className="stats-table-wrapper">
-                        <table className="stats-table">
+                <div className={styles.statsTableContainer}>
+                    <div className={styles.statsTableWrapper}>
+                        <table className={styles.statsTable}>
                             <thead>
                                 <tr>
-                                    <th className="rank-header">Rank</th>
+                                    <th className={styles.rankHeader}>Rank</th>
                                     <th>Name</th>
                                     <th>Scores</th>
                                     <th>K/D</th>
-                                    <th className="hidden md:table-cell">Kills</th>
-                                    <th className="hidden md:table-cell">Deaths</th>
-                                    <th className="hidden md:table-cell">Games</th>
-                                    <th className="hidden md:table-cell">Avg Score</th>
-                                    <th className="hidden md:table-cell">Last Seen</th>
+                                    <th className={styles.hideMobile}>Kills</th>
+                                    <th className={styles.hideMobile}>Deaths</th>
+                                    <th className={styles.hideMobile}>Games</th>
+                                    <th className={styles.hideMobile}>Avg Score</th>
+                                    <th className={styles.hideMobile}>Last Seen</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,30 +80,31 @@ const StatsPage = () => {
                                     <tr
                                         key={player.id}
                                         className={
-                                            player.rank === 1 ? "rank-1" :
-                                            player.rank === 2 ? "rank-2" :
-                                            player.rank === 3 ? "rank-3" : player.rank % 2 === 0 ? "even-row" : "odd-row"
+                                            player.rank === 1 ? styles.rank1 :
+                                            player.rank === 2 ? styles.rank2 :
+                                            player.rank === 3 ? styles.rank3 : 
+                                            player.rank % 2 === 0 ? styles.evenRow : styles.oddRow
                                         }
                                         style={{
                                             animation: user && user.pbid === player.aid ? "blink 1s infinite" : "none",
                                         }}
                                     >
-                                        <td className="rank-column">
-                                            <div className="rank-icon-container">
+                                        <td className={styles.rankColumn}>
+                                            <div className={styles.rankIconContainer}>
                                                 {player.rank}
-                                                {player.rank === 1 && <FaTrophy className="text-yellow-400 ml-2 text-2xl" />}
-                                                {player.rank === 2 && <FaMedal className="text-gray-400 ml-2 text-2xl" />}
-                                                {player.rank === 3 && <FaAward className="text-orange-400 ml-2 text-2xl" />}
+                                                {player.rank === 1 && <FaTrophy className={styles.trophyIcon} />}
+                                                {player.rank === 2 && <FaMedal className={styles.medalIcon} />}
+                                                {player.rank === 3 && <FaAward className={styles.awardIcon} />}
                                             </div>
                                         </td>
                                         <td>{player.name}</td>
                                         <td>{player.scores}</td>
                                         <td>{player.kd}</td>
-                                        <td className="hidden md:table-cell">{player.kills}</td>
-                                        <td className="hidden md:table-cell">{player.deaths}</td>
-                                        <td className="hidden md:table-cell">{player.games}</td>
-                                        <td className="hidden md:table-cell">{player.avg_score}</td>
-                                        <td className="hidden md:table-cell">
+                                        <td className={styles.hideMobile}>{player.kills}</td>
+                                        <td className={styles.hideMobile}>{player.deaths}</td>
+                                        <td className={styles.hideMobile}>{player.games}</td>
+                                        <td className={styles.hideMobile}>{player.avg_score}</td>
+                                        <td className={styles.hideMobile}>
                                             {new Date(player.last_seen).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' })}
                                         </td>
                                     </tr>
@@ -115,7 +114,7 @@ const StatsPage = () => {
                     </div>
                 </div>
             ) : (
-                <p className="loading-text">Loading stats...</p>
+                <p className={styles.loadingText}>Loading stats...</p>
             )}
             <Footer />
         </div>

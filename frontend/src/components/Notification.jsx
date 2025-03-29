@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { CheckCircle, XCircle, Info, AlertTriangle, X } from 'lucide-react';
-import '../styles/partials/notification.css';
+import styles from '../styles/partials/notification.module.css'; // Updated import
 
 const Notification = ({ message, type, onClose }) => {
   const icons = {
@@ -13,20 +13,20 @@ const Notification = ({ message, type, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 5000); // Increased to 5 seconds
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, [onClose]);
 
   return (
-    <div className={`notification ${type}`}>
-      <div className="notification-icon">
+    <div className={`${styles.notification} ${styles[type]}`}>
+      <div className={styles.notificationIcon}>
         {icons[type]}
       </div>
-      <div className="notification-content">
+      <div className={styles.notificationContent}>
         <span>{message}</span>
       </div>
-      <button onClick={onClose} className="notification-close">
+      <button onClick={onClose} className={styles.notificationClose}>
         <X size={18} />
       </button>
     </div>
