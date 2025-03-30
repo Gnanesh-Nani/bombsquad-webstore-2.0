@@ -62,9 +62,9 @@ export const AuthProvider = ({ children }) => {
 
     const updateUser = (updatedUserData) => {
         console.log("🛠 Updating user session with:", updatedUserData);
-        setUser(updatedUserData);
+        setUser(prev => ({ ...prev, ...updatedUserData }));
     };
-
+    
     // Return loading state if session is being checked
     if (loading) {
         return <div>Loading...</div>;

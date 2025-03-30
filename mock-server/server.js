@@ -120,7 +120,54 @@ app.post("/app/bank/buyTag", express.json(), (req, res) => {
   });
 });
 
+// Add these new endpoints to mock-server.js
 
+app.post("/app/bank/removeEffect", express.json(), (req, res) => {
+
+  console.log("remove Effect end point hitted in Mock Server")
+
+  const { pbId } = req.body;
+  const bankData = readJSONFile("bank.json");
+
+  if (!bankData[pbId] || !bankData[pbId].effect) {
+      return res.status(400).json({ success: false, message: "No active effect to remove" });
+  }
+
+  bankData[pbId].effect = null;
+
+  fs.writeFileSync("bank.json", JSON.stringify(bankData, null, 4));
+
+  const bankDataUser = bankData[pbId];
+  bankDataUser['pbid'] = pbId;
+
+  res.json({
+      success: true,
+      message: "Effect removed successfully!",
+      user: bankDataUser
+  });
+});
+
+app.post("/app/bank/removeTag", express.json(), (req, res) => {
+  const { pbId } = req.body;
+  const bankData = readJSONFile("bank.json");
+
+  if (!bankData[pbId] || !bankData[pbId].tag) {
+      return res.status(400).json({ success: false, message: "No active tag to remove" });
+  }
+
+  bankData[pbId].tag = null;
+
+  fs.writeFileSync("bank.json", JSON.stringify(bankData, null, 4));
+
+  const bankDataUser = bankData[pbId];
+  bankDataUser['pbid'] = pbId;
+
+  res.json({
+      success: true,
+      message: "Tag removed successfully!",
+      user: bankDataUser
+  });
+});
 
 // Start the server
 const PORT = 3002;

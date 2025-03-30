@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PurchaseItem from "../components/shop/PurchaseItem";
 import PurchaseTag from "../components/shop/PurchaseTag";
+import { useNotification } from "../context/NotificationContext";
 import { useAuth } from "../context/AuthContext";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
@@ -8,9 +9,10 @@ import { User } from "lucide-react";
 import styles from "../styles/shop/shop.module.css";
 
 const Shop = () => {
-    const { user } = useAuth();
+    const { user,updateUser } = useAuth();
     const [items, setItems] = useState([]);
-
+    const { showNotification } = useNotification();
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -60,10 +62,10 @@ const Shop = () => {
                     <div className={styles.balance}>
                         <span className={styles.label}>Balance:</span>
                         <span> {user?.tickets || 0}</span>
-                        <img 
-                            src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png" 
-                            alt="Tickets" 
-                            className={styles.ticketIcon} 
+                        <img
+                            src="https://static.wikia.nocookie.net/bombsquad/images/1/14/Tickets.png"
+                            alt="Tickets"
+                            className={styles.ticketIcon}
                         />
                     </div>
                     <div className={styles.activeEffects}>
@@ -72,6 +74,35 @@ const Shop = () => {
                             <span className={styles.value}>{user?.effect?.[0] || "None"}</span> <br />
                             <span className={styles.label}>Ends on:</span>{" "}
                             <span className={styles.value}>{formatEndDate(user?.effect?.[1])}</span>
+                            {user?.effect?.[0] && (
+                                <button
+                                    className={styles.removeButton}
+                                    onClick={async () => {
+                                        try {
+                                            const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/shop/removeEffect`, {
+                                                method: "POST",
+                                                credentials: "include",
+                                                headers: { "Content-Type": "application/json" },
+                                            });
+                                            const data = await response.json();
+                                            console.log(data)
+                                            if (data.success) {
+                                                showNotification("Effect removed successfully", "success");
+                                                // You might want to update the user context here
+                                                if (data.user) {
+                                                    updateUser(data.user);
+                                                }
+                                            } else {
+                                                showNotification(data.message || "Failed to remove effect", "error");
+                                            }
+                                        } catch (error) {
+                                            showNotification("Failed to remove effect", "error");
+                                        }
+                                    }}
+                                >
+                                    Remove
+                                </button>
+                            )}
                         </span>
                     </div>
                     <div className={styles.activeTag}>
@@ -80,6 +111,34 @@ const Shop = () => {
                             <span className={styles.value}>{user?.tag?.[0] || "None"}</span> <br />
                             <span className={styles.label}>Ends on:</span>{" "}
                             <span className={styles.value}>{formatEndDate(user?.tag?.[1])}</span>
+                            {user?.tag?.[0] && (
+                                <button
+                                    className={styles.removeButton}
+                                    onClick={async () => {
+                                        try {
+                                            const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/shop/removeTag`, {
+                                                method: "POST",
+                                                credentials: "include",
+                                                headers: { "Content-Type": "application/json" },
+                                            });
+                                            const data = await response.json();
+                                            if (data.success) {
+                                                showNotification("Tag removed successfully", "success");
+                                                if (data.user) {
+                                                    updateUser(data.user);
+                                                }
+                                                // You might want to update the user context here
+                                            } else {
+                                                showNotification(data.message || "Failed to remove tag", "error");
+                                            }
+                                        } catch (error) {
+                                            showNotification("Failed to remove tag", "error");
+                                        }
+                                    }}
+                                >
+                                    Remove
+                                </button>
+                            )}
                         </span>
                     </div>
                 </div>

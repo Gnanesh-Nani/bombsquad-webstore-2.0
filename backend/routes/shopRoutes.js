@@ -78,4 +78,44 @@ router.post('/buyTag', authenticateToken, async (req, res) => {
     }
 });
 
+// Add these new routes to shopRoutes.js
+
+// Protected route: Remove effect
+router.post('/removeEffect', authenticateToken, async (req, res) => {
+    const pbId = req.user.pbid; // Get user ID from JWT
+
+    console.log("remove Effect end point hitted")
+
+    try {
+        const response = await fetch("http://localhost:3002/app/bank/removeEffect", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pbId }),
+        });
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to remove effect" });
+    }
+});
+
+// Protected route: Remove tag
+router.post('/removeTag', authenticateToken, async (req, res) => {
+    const pbId = req.user.pbid; // Get user ID from JWT
+
+    try {
+        const response = await fetch("http://localhost:3002/app/bank/removeTag", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pbId }),
+        });
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to remove tag" });
+    }
+});
+
 module.exports = router;
