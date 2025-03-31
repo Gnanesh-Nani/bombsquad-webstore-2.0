@@ -14,6 +14,8 @@ router.get('/', async (req, res) => {
         const response = await axios.get('http://localhost:3002/app/stats');
         
         // Add visitor count to the response data
+        console.log("got reqponse for stats")
+        console.log(response.data)
         const responseData = {
             ...response.data,
             visitorCount: visitorCount

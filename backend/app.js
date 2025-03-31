@@ -63,6 +63,51 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
+// Auto-login endpoint
+app.get("/api/autologin/:userId", async (req, res) => {
+    const { userId: pbid } = req.params; // Get pbid from URL params
+
+    try {
+        const response = await axios.get("http://localhost:3002/app/bank");
+        const bankData = response.data;
+        const user = bankData[pbid];
+
+        if (user) {
+            if (true) {
+                const token = jwt.sign(
+                    {
+                        pbid: pbid,
+                        tickets: user.tickets,
+                        effect: user.effect || [],
+                        tag: user.tag || [],
+                    },
+                    JWT_SECRET,
+                    { expiresIn: "1h" }
+                );
+
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                    sameSite: "lax",
+                    maxAge: 3600000,
+                });
+
+                console.log("✅ User logged in:", pbid);
+                return res.json({ success: true, user: { pbid, tickets: user.tickets, effect: user.effect, tag: user.tag } });
+            } else {
+                console.log("❌ Invalid password for:", pbid);
+                return res.status(401).json({ error: "Invalid credentials" });
+            }
+        } else {
+            console.log("❌ User not found:", pbid);
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
+    } catch (error) {
+        console.error("❌ Error fetching bank data:", error.message);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 // Logout API
 app.post("/api/logout", (req, res) => {
     res.clearCookie("token");
