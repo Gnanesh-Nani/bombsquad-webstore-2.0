@@ -63,11 +63,23 @@ router.post('/buyTag', authenticateToken, async (req, res) => {
         return res.status(400).json({ success: false, message: 'Invalid input' });
     }
 
+    // Convert hex color to RGB
+    function hexToRgb(hex) {
+        hex = hex.replace(/^#/, '');
+        let bigint = parseInt(hex, 16);
+        let r = (bigint >> 16) & 255;
+        let g = (bigint >> 8) & 255;
+        let b = bigint & 255;
+        return [r, g, b];
+    }
+
+    const rgbColor = hexToRgb(color); // Convert color
+
     try {
         const response = await fetch("http://localhost:3002/app/bank/buyTag", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ pbId, tagName, price, days, color }),
+            body: JSON.stringify({ pbId, tagName, price , color:rgbColor, days }),
         });
 
         const data = await response.json();
@@ -77,6 +89,7 @@ router.post('/buyTag', authenticateToken, async (req, res) => {
         res.status(500).json({ success: false, message: "Tag purchase failed" });
     }
 });
+
 
 // Add these new routes to shopRoutes.js
 
