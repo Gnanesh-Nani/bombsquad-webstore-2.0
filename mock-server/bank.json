@@ -1,10 +1,7 @@
 {
     "nani": {
-        "tickets": 49400,
-        "effect": [
-            "glow",
-            "2025-03-31 15:07:42"
-        ],
+        "tickets": 48800,
+        "effect": null,
         "tag": null,
         "password": "1234"
     },

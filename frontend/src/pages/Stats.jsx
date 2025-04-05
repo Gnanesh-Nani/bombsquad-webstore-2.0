@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
 import { FaTrophy, FaMedal, FaAward, FaEye } from "react-icons/fa";
-import styles from "../styles/stats/stats.module.css"; // Updated import
+import styles from "../styles/stats/stats.module.css"; 
 
 const StatsPage = () => {
     const { user } = useAuth();
