@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const admin = require('firebase-admin');
@@ -11,8 +12,12 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
+// Environment variables
+const STATS_API_URL = process.env.STATS_API_URL || 'http://localhost:3002/app/stats';
+const CACHE_TTL = parseInt(process.env.CACHE_TTL) || 3600; // Default 1 hour
+
 let visitorCount = 0;
-const statsCache = new NodeCache({ stdTTL: 3600 }); // Cache for 1 hour
+const statsCache = new NodeCache({ stdTTL: CACHE_TTL });
 
 // Helper function to get full stats for a season
 const getStats = async (seasonId) => {
@@ -56,7 +61,7 @@ const processTopPlayers = (stats) => {
             rank: player.rank,
             avg_score: player.avg_score || 0,
             games: player.games || 0,
-            kd:player.kd,
+            kd: player.kd,
             last_seen: player.last_seen,
             total_score: Math.round((player.avg_score || 0) * (player.games || 0))
         }));
@@ -66,7 +71,7 @@ const processTopPlayers = (stats) => {
 router.get('/', async (req, res) => {
     try {
         visitorCount++;
-        const response = await axios.get('http://localhost:3002/app/stats');
+        const response = await axios.get(STATS_API_URL);
         res.json({
             ...response.data,
             visitorCount
@@ -75,7 +80,8 @@ router.get('/', async (req, res) => {
         console.error("Error fetching current season stats:", error);
         res.status(500).json({
             error: "Failed to fetch current season stats",
-            visitorCount
+            visitorCount,
+            ...(process.env.NODE_ENV === 'development' && { details: error.message })
         });
     }
 });
@@ -83,9 +89,7 @@ router.get('/', async (req, res) => {
 // Get list of all past seasons (without current season)
 router.get('/seasonlist', async (req, res) => {
     try {
-
         const cachedData = statsCache.get('seasonList');
-        console.log("Cached Data : ",cachedData)
         if (cachedData) {
             return res.json({
                 seasons: cachedData,
@@ -106,7 +110,7 @@ router.get('/seasonlist', async (req, res) => {
         const allSeasons = [];
         snapShot.forEach(doc => {
             const data = doc.data();
-            if (data.endDate !== 'Present') { // Exclude current season
+            if (data.endDate !== 'Present') {
                 allSeasons.push({
                     id: doc.id,
                     startDate: data.startDate,
@@ -117,7 +121,6 @@ router.get('/seasonlist', async (req, res) => {
 
         statsCache.set('seasonList', allSeasons);
 
-
         res.json({
             seasons: allSeasons,
             visitorCount
@@ -126,7 +129,8 @@ router.get('/seasonlist', async (req, res) => {
         console.error("Error fetching season list:", error);
         res.status(500).json({
             error: "Failed to fetch season list",
-            visitorCount
+            visitorCount,
+            ...(process.env.NODE_ENV === 'development' && { details: error.message })
         });
     }
 });
@@ -151,7 +155,8 @@ router.get('/season/:id', async (req, res) => {
         console.error("Error fetching season stats:", error);
         res.status(500).json({
             error: "Failed to fetch season stats",
-            visitorCount
+            visitorCount,
+            ...(process.env.NODE_ENV === 'development' && { details: error.message })
         });
     }
 });
@@ -159,7 +164,6 @@ router.get('/season/:id', async (req, res) => {
 // Get top 3 players from last 3 seasons
 router.get('/seasonTop3', async (req, res) => {
     try {
-
         const cachedData = statsCache.get('seasonTop3');
         if (cachedData) {
             return res.json({
@@ -168,7 +172,6 @@ router.get('/seasonTop3', async (req, res) => {
             });
         }
 
-        // First get the season list
         const seasonsResponse = await db.collection('halloffame')
             .orderBy('startDate', 'desc')
             .get();
@@ -184,10 +187,8 @@ router.get('/seasonTop3', async (req, res) => {
             }
         });
 
-        // Get last 3 seasons
         const lastThreeSeasons = pastSeasons.slice(0, 3);
         
-        // Get top 3 players for each season
         const seasonsWithTopPlayers = await Promise.all(
             lastThreeSeasons.map(async season => {
                 const seasonData = await getStats(season.id);
@@ -209,7 +210,8 @@ router.get('/seasonTop3', async (req, res) => {
         console.error("Error fetching top 3 seasons:", error);
         res.status(500).json({
             error: "Failed to fetch top 3 seasons",
-            visitorCount
+            visitorCount,
+            ...(process.env.NODE_ENV === 'development' && { details: error.message })
         });
     }
 });

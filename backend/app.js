@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
@@ -7,13 +8,14 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const JWT_SECRET = "your-secret-key";
+const JWT_SECRET = process.env.JWT_SECRET;
+const CORS_ORIGINS = process.env.CORS_ORIGINS.split(',');
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin: ["http://localhost:5173", "http://localhost:5174"],
+        origin: CORS_ORIGINS,
         credentials: true,
     })
 );
@@ -23,7 +25,7 @@ app.post("/api/login", async (req, res) => {
     const { pbid, password } = req.body;
 
     try {
-        const response = await axios.get("http://localhost:3002/app/bank");
+        const response = await axios.get(process.env.BANK_API_URL);
         const bankData = response.data;
         const user = bankData[pbid];
 
@@ -37,14 +39,14 @@ app.post("/api/login", async (req, res) => {
                         tag: user.tag || [],
                     },
                     JWT_SECRET,
-                    { expiresIn: "1h" }
+                    { expiresIn: process.env.JWT_EXPIRES_IN }
                 );
 
                 res.cookie("token", token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                    sameSite: "lax",
-                    maxAge: 3600000,
+                    httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
+                    secure: process.env.COOKIE_SECURE === 'true',
+                    sameSite: process.env.COOKIE_SAME_SITE,
+                    maxAge: parseInt(process.env.COOKIE_MAX_AGE),
                 });
 
                 console.log("✅ User logged in:", pbid);
@@ -65,39 +67,34 @@ app.post("/api/login", async (req, res) => {
 
 // Auto-login endpoint
 app.get("/api/autologin/:userId", async (req, res) => {
-    const { userId: pbid } = req.params; // Get pbid from URL params
+    const { userId: pbid } = req.params;
 
     try {
-        const response = await axios.get("http://localhost:3002/app/bank");
+        const response = await axios.get(process.env.BANK_API_URL);
         const bankData = response.data;
         const user = bankData[pbid];
 
         if (user) {
-            if (true) {
-                const token = jwt.sign(
-                    {
-                        pbid: pbid,
-                        tickets: user.tickets,
-                        effect: user.effect || [],
-                        tag: user.tag || [],
-                    },
-                    JWT_SECRET,
-                    { expiresIn: "1h" }
-                );
+            const token = jwt.sign(
+                {
+                    pbid: pbid,
+                    tickets: user.tickets,
+                    effect: user.effect || [],
+                    tag: user.tag || [],
+                },
+                JWT_SECRET,
+                { expiresIn: process.env.JWT_EXPIRES_IN }
+            );
 
-                res.cookie("token", token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                    sameSite: "lax",
-                    maxAge: 3600000,
-                });
+            res.cookie("token", token, {
+                httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
+                secure: process.env.COOKIE_SECURE === 'true',
+                sameSite: process.env.COOKIE_SAME_SITE,
+                maxAge: parseInt(process.env.COOKIE_MAX_AGE),
+            });
 
-                console.log("✅ User logged in:", pbid);
-                return res.json({ success: true, user: { pbid, tickets: user.tickets, effect: user.effect, tag: user.tag } });
-            } else {
-                console.log("❌ Invalid password for:", pbid);
-                return res.status(401).json({ error: "Invalid credentials" });
-            }
+            console.log("✅ User logged in:", pbid);
+            return res.json({ success: true, user: { pbid, tickets: user.tickets, effect: user.effect, tag: user.tag } });
         } else {
             console.log("❌ User not found:", pbid);
             return res.status(401).json({ error: "Invalid credentials" });
@@ -153,7 +150,7 @@ app.get("/api/session", authenticateToken, async (req, res) => {
     console.log("🔎 Checking session for:", req.user.pbid);
 
     try {
-        const response = await axios.get("http://localhost:3002/app/bank");
+        const response = await axios.get(process.env.BANK_API_URL);
         const bankData = response.data;
         const latestUser = bankData[req.user.pbid];
 
@@ -165,15 +162,14 @@ app.get("/api/session", authenticateToken, async (req, res) => {
                 tag: latestUser.tag || [],
             };
 
-            // Only create a new token if the current one is about to expire or user data has changed
             if (isTokenAboutToExpire(req.user) || hasUserDataChanged(req.user, latestUser)) {
-                const token = jwt.sign(userData, JWT_SECRET, { expiresIn: "1h" });
+                const token = jwt.sign(userData, JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
                 res.cookie("token", token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                    sameSite: "lax",
-                    maxAge: 3600000,
+                    httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
+                    secure: process.env.COOKIE_SECURE === 'true',
+                    sameSite: process.env.COOKIE_SAME_SITE,
+                    maxAge: parseInt(process.env.COOKIE_MAX_AGE),
                 });
 
                 console.log("✅ Token refreshed for:", req.user.pbid);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
-import { Menu, X, ShoppingCart, Home, Youtube, LogOut,Trophy , User, LogIn } from "lucide-react";
+import { Menu, X, ShoppingCart, Home, Youtube, LogOut, Trophy, User, LogIn } from "lucide-react";
 import styles from "../styles/partials/navbar.module.css"; // Updated import
 
 const NavBar = () => {
@@ -52,7 +52,7 @@ const NavBar = () => {
                         <Link to="/shop" className={`${styles.navLink} ${location.pathname === "/shop" ? styles.active : ""}`}>
                             <ShoppingCart className={styles.icon} /> Shop
                         </Link>
-                        <button 
+                        <button
                             onClick={handleProfileClick}
                             className={`${styles.navLink} ${location.pathname.startsWith('/player') ? styles.active : ""}`}
                         >
@@ -87,9 +87,13 @@ const NavBar = () => {
                     <Link to="/stats" className={`${styles.navLink} ${location.pathname === "/stats" ? styles.active : ""}`}>
                         <Home className={styles.icon} /> Home
                     </Link>
+                    <Link to="/halloffame" className={`${styles.navLink} ${location.pathname === "/halloffame" ? styles.active : ""}`}>
+                        <Trophy className={styles.icon} /> Hall of Fame
+                    </Link>
                     <Link to="/shop" className={`${styles.navLink} ${location.pathname === "/shop" ? styles.active : ""}`}>
                         <ShoppingCart className={styles.icon} /> Shop
                     </Link>
+
                     <button
                         onClick={handleProfileClick}
                         className={`${styles.navLink} ${location.pathname.startsWith('/player') ? styles.active : ""}`}
