@@ -13,11 +13,14 @@ admin.initializeApp({
 const db = admin.firestore();
 
 // Environment variables
-const STATS_API_URL = process.env.STATS_API_URL || 'http://localhost:3002/app/stats';
+const STATS_API_URL = process.env.STATS_API_URL;
 const CACHE_TTL = parseInt(process.env.CACHE_TTL) || 3600; // Default 1 hour
 
 let visitorCount = 0;
-const statsCache = new NodeCache({ stdTTL: CACHE_TTL });
+const statsCache = new NodeCache({ 
+    stdTTL: CACHE_TTL,
+    checkperiod: 600 // Check for expired items every 10 minutes
+});
 
 // Helper function to get full stats for a season
 const getStats = async (seasonId) => {
@@ -67,13 +70,59 @@ const processTopPlayers = (stats) => {
         }));
 };
 
+// New endpoint to receive shop stats from FastAPI
+router.post('/cacheStats', async (req, res) => {
+    try {
+        const { data } = req.body;
+        
+        if (!data) {
+            return res.status(400).json({
+                error: "Missing data payload",
+                visitorCount
+            });
+        }
+        
+        // Update cache with new data
+        statsCache.set('currentStats', data);
+        console.log('Shop stats cache updated');
+        
+        res.json({
+            success: true,
+            message: "Cache stats received successfully",
+            visitorCount
+        });
+        
+    } catch (error) {
+        console.error("Error processing Cache stats:", error);
+        res.status(500).json({
+            error: "Failed to process Cache stats",
+            visitorCount,
+            ...(process.env.NODE_ENV === 'development' && { details: error.message })
+        });
+    }
+});
+
 // Current season stats (existing endpoint)
 router.get('/', async (req, res) => {
     try {
         visitorCount++;
+        const cachedData = statsCache.get('currentStats');
+
+        if (cachedData) {
+            console.log("Serving stats from cache");
+            return res.json({...cachedData, visitorCount});
+        }
+            
+        console.log("Fetching stats from FastAPI");
         const response = await axios.get(STATS_API_URL);
+        
+        // Cache the response from FastAPI
+        const responseData = response.data;
+        statsCache.set('currentStats', responseData);
+        console.log("Stats cached for future requests");
+        
         res.json({
-            ...response.data,
+            ...responseData,
             visitorCount
         });
     } catch (error) {

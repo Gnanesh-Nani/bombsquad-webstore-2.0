@@ -13,13 +13,11 @@ const AutoLogin = () => {
     useEffect(() => {
         const fetchAutoLogin = async () => {
             try {
-                console.log('autoloing tried')
                 const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/autologin/${userId}`, {
                     credentials: "include",
                 });
 
                 const data = await response.json();
-                console.log("📥 AutoLogin response:", data);
 
                 if (data.user) {
                     login(data.user); // Update both state and localStorage

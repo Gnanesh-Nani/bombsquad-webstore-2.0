@@ -85,7 +85,6 @@ const Shop = () => {
                                                 headers: { "Content-Type": "application/json" },
                                             });
                                             const data = await response.json();
-                                            console.log(data)
                                             if (data.success) {
                                                 showNotification("Effect removed successfully", "success");
                                                 // You might want to update the user context here

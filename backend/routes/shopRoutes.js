@@ -1,14 +1,15 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
-const { authenticateToken } = require('../middleware/auth'); // Import the middleware
+const { authenticateToken } = require('../middleware/auth');
 
-const MOCK_SERVER_URL = "http://localhost:3002/app/bank";
+const BANK_API_URL = process.env.BANK_API_URL;
 
 // Fetch shop items (public route)
 router.get('/', async (req, res) => {
     try {
-        const response = await fetch(MOCK_SERVER_URL);
+        const response = await fetch(process.env.BANK_API_URL);
         const bankData = await response.json();
 
         const items = [
@@ -40,14 +41,13 @@ router.post('/buy', authenticateToken, async (req, res) => {
     }
 
     try {
-        const response = await fetch("http://localhost:3002/app/bank/buy", {
+        const response = await fetch(`${BANK_API_URL}/buy`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ pbId, itemName, price, days }),
         });
 
         const data = await response.json();
-        console.log(data);
         res.json(data);
     } catch (error) {
         res.status(500).json({ success: false, message: "Purchase failed" });
@@ -76,31 +76,26 @@ router.post('/buyTag', authenticateToken, async (req, res) => {
     const rgbColor = hexToRgb(color); // Convert color
 
     try {
-        const response = await fetch("http://localhost:3002/app/bank/buyTag", {
+        const response = await fetch(`${BANK_API_URL}/buyTag`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ pbId, tagName, price , color:rgbColor, days }),
+            body: JSON.stringify({ pbId, tagName, price, color: rgbColor, days }),
         });
 
         const data = await response.json();
-        console.log(data);
         res.json(data);
     } catch (error) {
         res.status(500).json({ success: false, message: "Tag purchase failed" });
     }
 });
 
-
-// Add these new routes to shopRoutes.js
-
 // Protected route: Remove effect
 router.post('/removeEffect', authenticateToken, async (req, res) => {
     const pbId = req.user.pbid; // Get user ID from JWT
 
-    console.log("remove Effect end point hitted")
 
     try {
-        const response = await fetch("http://localhost:3002/app/bank/removeEffect", {
+        const response = await fetch(`${BANK_API_URL}/removeEffect`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ pbId }),
@@ -118,7 +113,7 @@ router.post('/removeTag', authenticateToken, async (req, res) => {
     const pbId = req.user.pbid; // Get user ID from JWT
 
     try {
-        const response = await fetch("http://localhost:3002/app/bank/removeTag", {
+        const response = await fetch(`${BANK_API_URL}/removeTag`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ pbId }),

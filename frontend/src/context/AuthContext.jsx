@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const fetchSession = async () => {
             try {
-                console.log("🔄 Fetching session from server...");
                 const response = await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/session`, {
                     credentials: "include",
                 });
@@ -22,12 +21,10 @@ export const AuthProvider = ({ children }) => {
                 }
 
                 const data = await response.json();
-                console.log("📥 Session response received:", data);
 
                 if (data.user) {
                     setUser(data.user);
                 } else {
-                    console.log("❌ No active session found.");
                     setUser(null);
                 }
             } catch (error) {
@@ -41,19 +38,16 @@ export const AuthProvider = ({ children }) => {
     }, []); // Fetch session on component mount
 
     const login = (userData) => {
-        console.log("🔑 Logging in user:", userData);
         setUser(userData);
     };
 
     const logout = async () => {
         try {
-            console.log("🚪 Logging out user...");
             await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/logout`, {
                 method: "POST",
                 credentials: "include", // Include credentials (cookies)
             });
 
-            console.log("🗑️ Clearing user session...");
             setUser(null);
         } catch (error) {
             console.error("❌ Logout failed", error);
@@ -61,7 +55,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     const updateUser = (updatedUserData) => {
-        console.log("🛠 Updating user session with:", updatedUserData);
         setUser(prev => ({ ...prev, ...updatedUserData }));
     };
     

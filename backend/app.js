@@ -4,6 +4,8 @@ const cors = require("cors");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const { authenticateToken } = require('./middleware/auth');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -111,23 +113,6 @@ app.post("/api/logout", (req, res) => {
     console.log("🚪 User logged out");
     return res.json({ success: true, message: "Logged out successfully" });
 });
-
-// Middleware to verify JWT
-const authenticateToken = (req, res, next) => {
-    const token = req.cookies.token;
-
-    if (!token) {
-        return res.status(401).json({ error: "Access denied. No token provided." });
-    }
-
-    jwt.verify(token, JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ error: "Invalid or expired token." });
-        }
-        req.user = user;
-        next();
-    });
-};
 
 // Check if token is about to expire
 const isTokenAboutToExpire = (user) => {

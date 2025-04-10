@@ -1,23 +1,32 @@
 const jwt = require('jsonwebtoken');
-
-// Secret key for JWT (must match the one used for signing tokens)
-const JWT_SECRET = 'your-secret-key';
+require('dotenv').config();
 
 // Middleware to verify JWT token
 const authenticateToken = (req, res, next) => {
-    const token = req.cookies.token; // Get token from cookie
+    // Get token from cookie or Authorization header
+    const token = req.cookies.token || req.headers['authorization']?.split(' ')[1];
 
     if (!token) {
-        return res.status(401).json({ error: 'Access denied. No token provided.' });
+        return res.status(401).json({ 
+            success: false,
+            message: 'Access denied. No token provided.' 
+        });
     }
 
     // Verify the token
-    jwt.verify(token, JWT_SECRET, (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).json({ error: 'Invalid or expired token.' });
+            return res.status(403).json({ 
+                success: false,
+                message: 'Invalid or expired token.' 
+            });
         }
-        req.user = user; // Attach user data to the request object
-        next(); // Proceed to the next middleware or route handler
+        
+        // Attach user data to the request object
+        req.user = user;
+        
+        // Proceed to the next middleware or route handler
+        next();
     });
 };
 
