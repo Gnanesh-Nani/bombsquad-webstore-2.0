@@ -26,6 +26,9 @@ const StatsPage = () => {
 
                     setStats(sortedStats);
                     setVisitorCount(data.visitorCount || 0);
+                    console.log("startDate", data.startDate);
+                    console.log("endDate", data.endDate);
+                    console.log("seasonDuration", data.seasonDuration);
                     setSeasonStartDate(data.startDate || "N/A");
                 }
             } catch (error) {

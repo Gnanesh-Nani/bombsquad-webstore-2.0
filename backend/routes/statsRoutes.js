@@ -110,6 +110,8 @@ router.get('/', async (req, res) => {
 
         if (cachedData) {
             console.log("Serving stats from cache");
+            // console.log("Cached data keys:", Object.keys(cachedData));
+            // console.log("Cached data:", cachedData);
             return res.json({...cachedData, visitorCount});
         }
             
